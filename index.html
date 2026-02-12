@@ -130,6 +130,57 @@ font-size:48px;
 #noBtn{
 position:absolute;
 }
+
+/* HACER EL CUADRO SI MÁS PEQUEÑO */
+#slide4 .option:first-of-type{
+width:120px;
+margin-left:auto;
+margin-right:auto;
+}
+
+/* ====== MÁS ESTILO ARCADE ====== */
+
+.container, .option, .btn, .small-btn, .level-box {
+image-rendering: pixelated;
+}
+
+.container {
+border: 12px solid black;
+box-shadow: 0 0 0 6px white, 0 0 0 12px black;
+}
+
+.title, .level-clear {
+text-shadow:
+4px 4px 0 black,
+-2px -2px 0 black;
+}
+
+@keyframes arcadeBlink {
+0% { opacity: 1; }
+50% { opacity: 0.6; }
+100% { opacity: 1; }
+}
+
+.level-box {
+animation: arcadeBlink 1s infinite;
+}
+
+body::after{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background: repeating-linear-gradient(
+0deg,
+rgba(0,0,0,0.15),
+rgba(0,0,0,0.15) 2px,
+transparent 2px,
+transparent 4px
+);
+pointer-events:none;
+}
 </style>
 </head>
 
@@ -236,4 +287,4 @@ moveNoButton();
 </script>
 
 </body>
-</html
+</html>
