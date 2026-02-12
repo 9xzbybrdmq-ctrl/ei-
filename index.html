@@ -196,9 +196,9 @@ position:absolute;
 <div class="slide" id="slide4">
 <div class="container">
 <div class="level-box">NIVEL 3</div>
-<div class="question">¿QUIERES SER MI SAN VALENTÍN?</div>
+<div class="question">¿QUIERES SER MI SAN VALENTÍN? ❤️</div>
 
-<div class="option" onclick="goTo('finalLove')">SI</div>
+<div class="small-btn" onclick="goTo('finalLove')">SI</div>
 <div class="option" id="noBtn">NO</div>
 </div>
 </div>
@@ -228,7 +228,6 @@ else if(answer === 'c'){ goTo('errorC'); }
 else{ goTo('correct'); }
 }
 
-/* BOTÓN NO QUE SE ESCAPA (mouse y touch) */
 const noBtn = document.getElementById('noBtn');
 
 function moveNoButton(){
