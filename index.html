@@ -5,75 +5,94 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Valentine game</title>
 
+<!-- Fuente pixel -->
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
 <style>
 body {
 margin: 0;
+background: #d90429;
+font-family: 'Press Start 2P', cursive;
+display: flex;
+justify-content: center;
+align-items: center;
 height: 100vh;
-background: linear-gradient(135deg, #ff4da6, #ffb6e6);
-font-family: Arial, sans-serif;
-text-align: center;
 overflow: hidden;
-cursor: none;
 }
 
-/* Cursor negro personalizado */
-#cursor {
-width: 18px;
-height: 18px;
-background: black;
-position: fixed;
-pointer-events: none;
-clip-path: polygon(0 0, 100% 50%, 55% 60%, 65% 100%, 45% 100%, 35% 60%);
-z-index: 9999;
+/* Pantalla Inicio */
+#startScreen {
+background: white;
+padding: 50px;
+text-align: center;
+border: 6px solid black;
+box-shadow: 12px 12px 0px black;
+animation: pop 0.6s ease-out;
+}
+
+@keyframes pop {
+from { transform: scale(0.8); opacity: 0; }
+to { transform: scale(1); opacity: 1; }
 }
 
 h1 {
-margin-top: 60px;
+font-size: 22px;
+color: #d90429;
+margin-bottom: 20px;
+}
+
+.subtitle {
+background: #d90429;
 color: white;
-text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+padding: 8px;
+font-size: 10px;
+margin-bottom: 20px;
+}
+
+.smallText {
+font-size: 8px;
+margin-bottom: 25px;
+}
+
+button {
+background: #d90429;
+color: white;
+border: 4px solid black;
+padding: 12px 25px;
+cursor: pointer;
+font-size: 10px;
+}
+
+button:hover {
+background: black;
+}
+
+/* Juego */
+#game {
+display: none;
+flex-direction: column;
+align-items: center;
+text-align: center;
+color: white;
 }
 
 .option {
-border: 2px solid white;
-padding: 15px 30px;
+border: 3px solid white;
+padding: 10px 20px;
 margin: 15px;
-display: inline-block;
-font-size: 20px;
-color: white;
-background: rgba(255,255,255,0.2);
-border-radius: 15px;
 cursor: pointer;
-transition: 0.3s;
+font-size: 10px;
 }
 
 .option:hover {
 background: white;
-color: #ff1493;
-transform: scale(1.1);
-}
-
-#message {
-font-size: 22px;
-margin-top: 20px;
-color: white;
-}
-
-#playAgain {
-margin-top: 25px;
-padding: 12px 25px;
-background: white;
-color: #ff1493;
-border: none;
-border-radius: 10px;
-cursor: pointer;
-display: none;
-font-size: 18px;
+color: #d90429;
 }
 
 .falling {
 position: fixed;
-top: -50px;
-font-size: 24px;
+top: -20px;
+font-size: 14px;
 animation: fall linear forwards;
 }
 
@@ -85,49 +104,61 @@ to { transform: translateY(100vh); }
 
 <body>
 
-<div id="cursor"></div>
+<div id="startScreen">
+<h1>VALENTINE GAME</h1>
+<div class="subtitle">MADE JUST FOR YOU</div>
+<div class="smallText">PRESS START OR ENTER</div>
+<button onclick="startGame()">START</button>
+</div>
 
-<h1 id="question">¿Dónde nos conocimos?</h1>
+<div id="game">
+<h2 id="question">WHERE DID WE MEET?</h2>
 
 <div id="options">
-<div class="option" onclick="checkAnswer(1)">1. En tu casa 🏠</div>
-<div class="option" onclick="checkAnswer(2)">2. En el parque 🌳</div>
-<div class="option" onclick="checkAnswer(3)">3. En una fiesta 🎉</div>
+<div class="option" onclick="checkAnswer(1)">1. YOUR HOUSE</div>
+<div class="option" onclick="checkAnswer(2)">2. THE PARK</div>
+<div class="option" onclick="checkAnswer(3)">3. A PARTY</div>
 </div>
 
 <div id="message"></div>
-<button id="playAgain" onclick="restart()">Play Again</button>
+</div>
 
 <script>
 
 let level = 1;
 
-/* Cursor personalizado */
-const cursor = document.getElementById("cursor");
+/* Sonido retro */
+function playBeep(){
+const ctx = new (window.AudioContext || window.webkitAudioContext)();
+const osc = ctx.createOscillator();
+osc.type = "square";
+osc.frequency.setValueAtTime(440, ctx.currentTime);
+osc.connect(ctx.destination);
+osc.start();
+osc.stop(ctx.currentTime + 0.1);
+}
 
-document.addEventListener("mousemove", e => {
-cursor.style.left = e.clientX + "px";
-cursor.style.top = e.clientY + "px";
-});
-
-/* Soporte teclado físico */
+/* Enter para empezar */
 document.addEventListener("keydown", function(e){
-if(level === 1){
-if(e.key === "1") checkAnswer(1);
-if(e.key === "2") checkAnswer(2);
-if(e.key === "3") checkAnswer(3);
+if(e.key === "Enter"){
+startGame();
 }
 });
 
-/* Juego */
+/* Start */
+function startGame(){
+playBeep();
+document.getElementById("startScreen").style.display = "none";
+document.getElementById("game").style.display = "flex";
+}
 
-function checkAnswer(answer) {
+/* Juego */
+function checkAnswer(answer){
 if(level === 1){
 if(answer === 2){
 nextLevel();
 } else {
-document.getElementById("message").innerHTML =
-"¿Es en serio? 😿";
+document.getElementById("message").innerHTML = "WRONG 😈";
 }
 }
 }
@@ -137,23 +168,11 @@ level++;
 
 if(level === 2){
 document.getElementById("question").innerHTML =
-"¿Qué es lo que más me gusta de ti?";
+"BE MY VALENTINE? 💘";
 document.getElementById("options").innerHTML = `
-<div class="option" onclick="nextLevel()">Tu carita 😍</div>
-<div class="option" onclick="nextLevel()">Tu sonrisa 😁</div>
-<div class="option" onclick="nextLevel()">Todo 💗</div>
+<div class="option" onclick="finalYes()">YES 💗</div>
+<div class="option" id="noBtn">NO</div>
 `;
-document.getElementById("message").innerHTML = "";
-}
-
-else if(level === 3){
-document.getElementById("question").innerHTML =
-"¿Quieres ser mi Valentine? 💘";
-document.getElementById("options").innerHTML = `
-<div class="option" onclick="finalYes()">Sí 💗</div>
-<div class="option" id="noBtn">No 😈</div>
-`;
-document.getElementById("message").innerHTML = "";
 
 const noBtn = document.getElementById("noBtn");
 noBtn.addEventListener("mouseover", function(){
@@ -166,26 +185,22 @@ noBtn.style.top = Math.random() * (window.innerHeight - 50) + "px";
 
 function finalYes(){
 document.getElementById("question").innerHTML =
-"SÍÍÍ 💗 Te quiero muchooo 😽";
+"I KNEW IT 💗✨";
 document.getElementById("options").innerHTML = "";
-document.getElementById("playAgain").style.display = "inline-block";
 startEffects();
 }
 
+/* Corazones pixel */
 function startEffects(){
 setInterval(()=>{
-let item = document.createElement("div");
-item.classList.add("falling");
-item.innerHTML = Math.random() > 0.5 ? "💗" : "✨";
-item.style.left = Math.random()*100 + "vw";
-item.style.animationDuration = (Math.random()*3+2) + "s";
-document.body.appendChild(item);
-setTimeout(()=>{ item.remove(); },5000);
+let heart = document.createElement("div");
+heart.classList.add("falling");
+heart.innerHTML = "💗";
+heart.style.left = Math.random()*100 + "vw";
+heart.style.animationDuration = (Math.random()*3+2) + "s";
+document.body.appendChild(heart);
+setTimeout(()=>{ heart.remove(); },4000);
 },300);
-}
-
-function restart(){
-location.reload();
 }
 
 </script>
