@@ -31,21 +31,21 @@ align-items:center;
 display:flex;
 }
 
-/* CUADRO BLANCO */
+/* CUADRO BLANCO PIXEL */
 .container{
 background:white;
-padding:50px 40px;
+padding:60px 50px;
 text-align:center;
-border:6px solid black;
-box-shadow:12px 12px 0px black;
-max-width:700px;
+border:8px solid black;
+box-shadow:16px 16px 0px black;
+max-width:750px;
 }
 
 /* TITULO PRINCIPAL */
 .title{
 font-size:28px;
 color:#e10600;
--webkit-text-stroke:2px black;
+-webkit-text-stroke:3px black;
 margin-bottom:30px;
 }
 
@@ -53,9 +53,10 @@ margin-bottom:30px;
 .subtitle{
 background:#e10600;
 color:white;
-padding:15px 20px;
+padding:18px 24px;
 font-size:14px;
 margin-bottom:40px;
+border:6px solid black;
 }
 
 /* TEXTO PRESIONA */
@@ -64,26 +65,31 @@ font-size:12px;
 margin-bottom:15px;
 }
 
-/* BOTON */
+/* BOTONES PIXEL */
 .btn{
 background:#e10600;
 color:white;
-border:6px solid black;
-padding:10px 16px;
+border:8px solid black;
+padding:12px 20px;
 font-size:12px;
 cursor:pointer;
 display:inline-block;
 margin-top:20px;
 }
 
+.btn:active{
+transform:translate(4px,4px);
+}
+
 /* NIVEL */
 .level-box{
 background:black;
 color:white;
-padding:8px 12px;
+padding:10px 16px;
 font-size:10px;
 display:inline-block;
 margin-bottom:25px;
+border:6px solid black;
 }
 
 /* PREGUNTA */
@@ -93,16 +99,19 @@ color:black;
 margin-bottom:30px;
 }
 
-/* OPCIONES */
+/* OPCIONES PIXEL */
 .option{
-border:4px solid black;
-padding:15px;
-margin:10px 0;
+border:8px solid black;
+padding:18px;
+margin:15px 0;
 cursor:pointer;
 font-size:12px;
 }
 
-/* MENSAJES GRANDES */
+.option:active{
+transform:translate(4px,4px);
+}
+
 .big-text{
 font-size:18px;
 color:black;
@@ -110,7 +119,7 @@ margin-top:20px;
 }
 
 .emoji{
-font-size:40px;
+font-size:48px;
 }
 </style>
 </head>
@@ -172,14 +181,37 @@ VUELVE A LEER LA PREGUNTA 😠
 </div>
 </div>
 
-<!-- CORRECTO -->
+<!-- CORRECTO NIVEL 1 -->
 <div class="slide" id="correct">
 <div class="container">
 <div class="emoji">😍</div>
 <div class="big-text">
 TÚ ME DAS +1000 DE VIDA 🎮
 </div>
-<div class="btn">CONTINUAR</div>
+<div class="btn" onclick="goTo('slide3')">CONTINUAR</div>
+</div>
+</div>
+
+<!-- NIVEL 2 -->
+<div class="slide" id="slide3">
+<div class="container">
+<div class="level-box">NIVEL 2</div>
+
+<div class="question">
+¿QUÉ ES LO QUE ME GUSTA MÁS DE TI?
+</div>
+
+<div class="option" onclick="level2Correct()">
+A. TU CARITA 😊
+</div>
+
+<div class="option" onclick="level2Correct()">
+B. TU SONRISA 😁
+</div>
+
+<div class="option" onclick="level2Correct()">
+C. TODO 💘
+</div>
 </div>
 </div>
 
@@ -201,6 +233,10 @@ goTo('errorC');
 else{
 goTo('correct');
 }
+}
+
+function level2Correct(){
+alert("💖 TODAS SON CORRECTAS 💖");
 }
 </script>
 
