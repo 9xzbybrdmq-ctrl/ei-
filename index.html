@@ -16,22 +16,22 @@ justify-content:center;
 align-items:center;
 height:100vh;
 font-family:'Press Start 2P', cursive;
+overflow:hidden;
 }
 
-/* SLIDES */
 .slide{
 display:none;
 width:100%;
 height:100vh;
 justify-content:center;
 align-items:center;
+position:relative;
 }
 
 .active{
 display:flex;
 }
 
-/* CUADRO BLANCO PIXEL */
 .container{
 background:white;
 padding:60px 50px;
@@ -41,7 +41,6 @@ box-shadow:16px 16px 0px black;
 max-width:750px;
 }
 
-/* TITULO PRINCIPAL */
 .title{
 font-size:28px;
 color:#e10600;
@@ -49,7 +48,6 @@ color:#e10600;
 margin-bottom:30px;
 }
 
-/* RECTANGULO ROJO */
 .subtitle{
 background:#e10600;
 color:white;
@@ -59,13 +57,11 @@ margin-bottom:40px;
 border:6px solid black;
 }
 
-/* TEXTO PRESIONA */
 .press{
 font-size:12px;
 margin-bottom:15px;
 }
 
-/* BOTONES PIXEL */
 .btn{
 background:#e10600;
 color:white;
@@ -81,7 +77,6 @@ margin-top:20px;
 transform:translate(4px,4px);
 }
 
-/* NIVEL */
 .level-box{
 background:black;
 color:white;
@@ -92,14 +87,12 @@ margin-bottom:25px;
 border:6px solid black;
 }
 
-/* PREGUNTA */
 .question{
 font-size:18px;
 color:black;
 margin-bottom:30px;
 }
 
-/* OPCIONES PIXEL */
 .option{
 border:8px solid black;
 padding:18px;
@@ -121,6 +114,11 @@ margin-top:20px;
 .emoji{
 font-size:48px;
 }
+
+/* BOTÓN NO QUE SE ESCAPA */
+#noBtn{
+position:relative;
+}
 </style>
 </head>
 
@@ -140,54 +138,34 @@ font-size:48px;
 <div class="slide" id="slide2">
 <div class="container">
 <div class="level-box">NIVEL 1</div>
+<div class="question">¿DÓNDE FUE NUESTRO PRIMER BESO?</div>
 
-<div class="question">
-¿DÓNDE FUE NUESTRO PRIMER BESO?
-</div>
-
-<div class="option" onclick="checkAnswer('a')">
-A. EN TU CASA 🏠
-</div>
-
-<div class="option" onclick="checkAnswer('b')">
-B. EN EL PARQUE 🌳
-</div>
-
-<div class="option" onclick="checkAnswer('c')">
-C. EN UNA FIESTA 🎉
-</div>
+<div class="option" onclick="checkAnswer('a')">A. EN TU CASA 🏠</div>
+<div class="option" onclick="checkAnswer('b')">B. EN EL PARQUE 🌳</div>
+<div class="option" onclick="checkAnswer('c')">C. EN UNA FIESTA 🎉</div>
 </div>
 </div>
 
-<!-- ERROR A -->
 <div class="slide" id="errorA">
 <div class="container">
 <div class="emoji">😾</div>
-<div class="big-text">
-¿ES EN SERIO, QUE YA NO TE ACUERDAS?
-</div>
+<div class="big-text">¿ES EN SERIO, QUE YA NO TE ACUERDAS?</div>
 <div class="btn" onclick="goTo('slide2')">REINTENTAR</div>
 </div>
 </div>
 
-<!-- ERROR C -->
 <div class="slide" id="errorC">
 <div class="container">
 <div class="emoji">😾</div>
-<div class="big-text">
-VUELVE A LEER LA PREGUNTA 😠
-</div>
+<div class="big-text">VUELVE A LEER LA PREGUNTA 😠</div>
 <div class="btn" onclick="goTo('slide2')">REINTENTAR</div>
 </div>
 </div>
 
-<!-- CORRECTO NIVEL 1 -->
 <div class="slide" id="correct">
 <div class="container">
 <div class="emoji">😍</div>
-<div class="big-text">
-TÚ ME DAS +1000 DE VIDA 🎮
-</div>
+<div class="big-text">TÚ ME DAS +1000 DE VIDA 🎮</div>
 <div class="btn" onclick="goTo('slide3')">CONTINUAR</div>
 </div>
 </div>
@@ -196,35 +174,41 @@ TÚ ME DAS +1000 DE VIDA 🎮
 <div class="slide" id="slide3">
 <div class="container">
 <div class="level-box">NIVEL 2</div>
+<div class="question">¿QUÉ ES LO QUE ME GUSTA MÁS DE TI?</div>
 
-<div class="question">
-¿QUÉ ES LO QUE ME GUSTA MÁS DE TI?
-</div>
-
-<div class="option" onclick="level2Correct()">
-A. TU CARITA 😊
-</div>
-
-<div class="option" onclick="level2Correct()">
-B. TU SONRISA 😁
-</div>
-
-<div class="option" onclick="level2Correct()">
-C. TODO 💘
-</div>
+<div class="option" onclick="level2Correct()">A. TU CARITA 😊</div>
+<div class="option" onclick="level2Correct()">B. TU SONRISA 😁</div>
+<div class="option" onclick="level2Correct()">C. TODO 💘</div>
 </div>
 </div>
 
-<!-- SLIDE ROMÁNTICA NIVEL 2 -->
 <div class="slide" id="loveSlide">
 <div class="container">
 <div class="emoji">😻❤️</div>
-
-<div class="big-text">
-MUY BIEN AMOR!!! ❤️
+<div class="big-text">MUY BIEN AMOR!!! ❤️</div>
+<div class="btn" onclick="goTo('slide4')">CONTINUAR</div>
+</div>
 </div>
 
-<div class="btn">CONTINUAR</div>
+<!-- NIVEL 3 -->
+<div class="slide" id="slide4">
+<div class="container">
+<div class="level-box">NIVEL 3</div>
+<div class="question">¿QUIERES SER MI SAN VALENTÍN?</div>
+
+<div class="option" onclick="goTo('finalLove')">SI</div>
+<div class="option" id="noBtn">NO</div>
+</div>
+</div>
+
+<!-- FINAL -->
+<div class="slide" id="finalLove">
+<div class="container">
+<div class="emoji">😭❤️</div>
+<div class="big-text">
+SI!! SABÍA QUE DIRÍAS QUE SI
+</div>
+<div class="press">CONTINUAR</div>
 </div>
 </div>
 
@@ -237,20 +221,28 @@ document.getElementById(id).classList.add('active');
 }
 
 function checkAnswer(answer){
-if(answer === 'a'){
-goTo('errorA');
-}
-else if(answer === 'c'){
-goTo('errorC');
-}
-else{
-goTo('correct');
-}
+if(answer === 'a'){ goTo('errorA'); }
+else if(answer === 'c'){ goTo('errorC'); }
+else{ goTo('correct'); }
 }
 
 function level2Correct(){
 goTo('loveSlide');
 }
+
+/* BOTÓN NO QUE SE ESCAPA */
+const noBtn = document.getElementById('noBtn');
+
+document.addEventListener("mousemove", function(e){
+const rect = noBtn.getBoundingClientRect();
+const distance = Math.hypot(e.clientX - rect.left, e.clientY - rect.top);
+
+if(distance < 100){
+noBtn.style.position = "absolute";
+noBtn.style.left = Math.random() * (window.innerWidth - 150) + "px";
+noBtn.style.top = Math.random() * (window.innerHeight - 100) + "px";
+}
+});
 </script>
 
 </body>
