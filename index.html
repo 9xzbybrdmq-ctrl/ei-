@@ -10,46 +10,13 @@
 <style>
 body{
 margin:0;
+background:#e10600;
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
 font-family:'Press Start 2P', cursive;
 overflow:hidden;
-
-/* FONDO ARCADE ANIMADO */
-background: repeating-linear-gradient(
-0deg,
-#e10600,
-#e10600 4px,
-#c40000 4px,
-#c40000 8px
-);
-animation: bgMove 2s linear infinite;
-}
-
-@keyframes bgMove{
-from{ background-position:0 0; }
-to{ background-position:0 20px; }
-}
-
-/* EFECTO SCANLINES CRT */
-body::after{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-background: repeating-linear-gradient(
-to bottom,
-rgba(0,0,0,0.2) 0px,
-rgba(0,0,0,0.2) 2px,
-transparent 2px,
-transparent 4px
-);
-mix-blend-mode:multiply;
 }
 
 .slide{
@@ -71,12 +38,6 @@ padding:60px 50px;
 text-align:center;
 border:8px solid black;
 max-width:800px;
-
-/* GLOW NEON */
-box-shadow:
-0 0 20px #ff0000,
-0 0 40px #ff0000,
-16px 16px 0px black;
 }
 
 .title{
@@ -84,65 +45,15 @@ font-size:28px;
 color:#e10600;
 -webkit-text-stroke:3px black;
 margin-bottom:30px;
-animation: arcadeBlink 1s infinite alternate;
-}
-
-.level-clear{
-font-size:32px;
-color:red;
--webkit-text-stroke:3px black;
-margin-bottom:30px;
-animation: arcadeBlink 1s infinite alternate;
-}
-
-@keyframes arcadeBlink{
-from{ filter:brightness(1); }
-to{ filter:brightness(1.6); }
 }
 
 .subtitle{
 background:#e10600;
 color:white;
-padding:18px 24px;
+padding:15px;
+border:6px solid black;
+margin-bottom:30px;
 font-size:14px;
-margin-bottom:40px;
-border:6px solid black;
-}
-
-.press{
-font-size:12px;
-margin-bottom:15px;
-}
-
-.btn, .small-btn, .option{
-transition: all 0.1s;
-}
-
-.btn{
-background:#e10600;
-color:white;
-border:8px solid black;
-padding:12px 20px;
-font-size:12px;
-cursor:pointer;
-display:inline-block;
-margin-top:20px;
-}
-
-.small-btn{
-background:#e10600;
-color:white;
-border:6px solid black;
-padding:8px 14px;
-font-size:10px;
-cursor:pointer;
-display:inline-block;
-margin-top:25px;
-}
-
-.btn:hover, .small-btn:hover, .option:hover{
-transform: scale(1.05);
-box-shadow: 0 0 15px #ff0000;
 }
 
 .level-box{
@@ -169,10 +80,28 @@ cursor:pointer;
 font-size:12px;
 }
 
+.btn, .small-btn{
+background:#e10600;
+color:white;
+border:6px solid black;
+padding:10px 16px;
+font-size:10px;
+cursor:pointer;
+display:inline-block;
+margin-top:20px;
+}
+
 .big-text{
 font-size:18px;
 color:black;
 margin-top:20px;
+}
+
+.level-clear{
+font-size:30px;
+color:red;
+-webkit-text-stroke:3px black;
+margin-bottom:30px;
 }
 
 .level-message{
@@ -188,23 +117,17 @@ font-size:48px;
 #noBtn{
 position:absolute;
 }
-
-/* PIXEL SHARP */
-*{
-image-rendering: pixelated;
-}
 </style>
 </head>
 
 <body>
 
-<!-- SLIDE 1 -->
+<!-- INICIO -->
 <div class="slide active" id="slide1">
 <div class="container">
 <div class="title">VALENTINE GAME</div>
 <div class="subtitle">MADE JUST FOR YOU</div>
-<div class="press">PRESIONA START</div>
-<div class="btn" id="startBtn" onclick="goTo('slide2')">START</div>
+<div class="btn" onclick="startGame()">START</div>
 </div>
 </div>
 
@@ -213,29 +136,13 @@ image-rendering: pixelated;
 <div class="container">
 <div class="level-box">NIVEL 1</div>
 <div class="question">¿DÓNDE FUE NUESTRO PRIMER BESO?</div>
-<div class="option" onclick="checkAnswer('a')">A. EN TU CASA 🏠</div>
-<div class="option" onclick="checkAnswer('b')">B. EN EL PARQUE 🌳</div>
-<div class="option" onclick="checkAnswer('c')">C. EN UNA FIESTA 🎉</div>
+<div class="option" onclick="goTo('correct1')">A. EN TU CASA 🏠</div>
+<div class="option" onclick="goTo('correct1')">B. EN EL PARQUE 🌳</div>
+<div class="option" onclick="goTo('correct1')">C. EN UNA FIESTA 🎉</div>
 </div>
 </div>
 
-<div class="slide" id="errorA">
-<div class="container">
-<div class="emoji">😾</div>
-<div class="big-text">¿ES EN SERIO, QUE YA NO TE ACUERDAS?</div>
-<div class="btn" onclick="goTo('slide2')">REINTENTAR</div>
-</div>
-</div>
-
-<div class="slide" id="errorC">
-<div class="container">
-<div class="emoji">😾</div>
-<div class="big-text">VUELVE A LEER LA PREGUNTA 😠</div>
-<div class="btn" onclick="goTo('slide2')">REINTENTAR</div>
-</div>
-</div>
-
-<div class="slide" id="correct">
+<div class="slide" id="correct1">
 <div class="container">
 <div class="emoji">😍</div>
 <div class="big-text">TÚ ME DAS +1000 DE VIDA 🎮</div>
@@ -248,16 +155,34 @@ image-rendering: pixelated;
 <div class="container">
 <div class="level-box">NIVEL 2</div>
 <div class="question">¿QUÉ ES LO QUE ME GUSTA MÁS DE TI?</div>
-<div class="option" onclick="goTo('loveSlide')">A. TU CARITA 😊</div>
-<div class="option" onclick="goTo('loveSlide')">B. TU SONRISA 😁</div>
-<div class="option" onclick="goTo('loveSlide')">C. TODO 💘</div>
+<div class="option" onclick="goTo('correct2')">A. TU CARITA 😊</div>
+<div class="option" onclick="goTo('correct2')">B. TU SONRISA 😁</div>
+<div class="option" onclick="goTo('correct2')">C. TODO 💘</div>
 </div>
 </div>
 
-<div class="slide" id="loveSlide">
+<div class="slide" id="correct2">
+<div class="container">
+<div class="emoji">😻❤️</div>
+<div class="big-text">MUY BIEN AMOR!!! ❤️</div>
+<div class="btn" onclick="goTo('slide4')">CONTINUAR</div>
+</div>
+</div>
+
+<!-- NIVEL 3 -->
+<div class="slide" id="slide4">
+<div class="container">
+<div class="level-box">NIVEL 3</div>
+<div class="question">¿QUIERES SER MI SAN VALENTÍN?</div>
+<div class="option" onclick="goTo('finalLove')">SI</div>
+<div class="option" id="noBtn">NO</div>
+</div>
+</div>
+
+<div class="slide" id="finalLove">
 <div class="container">
 <div class="emoji">😭❤️</div>
-<div class="big-text">SI!! SABÍA QUE DIRÍAS QUE SI!!</div>
+<div class="big-text">SI!! SABÍA QUE DIRÍAS QUE SI</div>
 <div class="small-btn" onclick="goTo('levelClear')">CONTINUAR</div>
 </div>
 </div>
@@ -274,9 +199,9 @@ ESPERO NOS VOLVAMOS A VER PRONTO ❤️
 </div>
 </div>
 
-<!-- AUDIO ARCADE -->
-<audio id="arcadeMusic" loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=8-bit-arcade-110624.mp3" type="audio/mpeg">
+<!-- MÚSICA ARCADE -->
+<audio id="arcadeMusic" loop preload="auto">
+<source src="https://cdn.pixabay.com/audio/2022/10/16/audio_12b3b8a6d2.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -287,31 +212,25 @@ slide.classList.remove('active');
 document.getElementById(id).classList.add('active');
 }
 
-function checkAnswer(answer){
-if(answer === 'a'){ goTo('errorA'); }
-else if(answer === 'c'){ goTo('errorC'); }
-else{ goTo('correct'); }
+function startGame(){
+const music = document.getElementById("arcadeMusic");
+music.volume = 0.5;
+music.play().catch(e => console.log("Audio bloqueado:", e));
+goTo('slide2');
 }
 
 /* BOTÓN NO QUE SE ESCAPA */
 const noBtn = document.getElementById('noBtn');
-if(noBtn){
+
 function moveNoButton(){
 noBtn.style.left = Math.random() * (window.innerWidth - 150) + "px";
 noBtn.style.top = Math.random() * (window.innerHeight - 80) + "px";
 }
+
 noBtn.addEventListener("mouseover", moveNoButton);
 noBtn.addEventListener("touchstart", function(e){
 e.preventDefault();
 moveNoButton();
-});
-}
-
-/* MÚSICA ARCADE */
-const music = document.getElementById("arcadeMusic");
-document.getElementById("startBtn").addEventListener("click", function(){
-music.volume = 0.4;
-music.play();
 });
 </script>
 
