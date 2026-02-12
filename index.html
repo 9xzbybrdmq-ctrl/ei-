@@ -3,44 +3,68 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>San Valentín 💗</title>
+<title>Valentine game</title>
 
 <style>
 body {
-background: white;
-text-align: center;
+margin: 0;
+height: 100vh;
+background: linear-gradient(135deg, #ff4da6, #ffb6e6);
 font-family: Arial, sans-serif;
+text-align: center;
 overflow: hidden;
+cursor: none;
+}
+
+/* Cursor negro personalizado */
+#cursor {
+width: 18px;
+height: 18px;
+background: black;
+position: fixed;
+pointer-events: none;
+clip-path: polygon(0 0, 100% 50%, 55% 60%, 65% 100%, 45% 100%, 35% 60%);
+z-index: 9999;
 }
 
 h1 {
-color: black;
-margin-top: 40px;
+margin-top: 60px;
+color: white;
+text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
 }
 
 .option {
-border: 2px solid black;
-padding: 15px 25px;
+border: 2px solid white;
+padding: 15px 30px;
 margin: 15px;
 display: inline-block;
-cursor: pointer;
 font-size: 20px;
-color: black;
-background: transparent;
+color: white;
+background: rgba(255,255,255,0.2);
+border-radius: 15px;
+cursor: pointer;
+transition: 0.3s;
+}
+
+.option:hover {
+background: white;
+color: #ff1493;
+transform: scale(1.1);
 }
 
 #message {
 font-size: 22px;
 margin-top: 20px;
-color: black;
+color: white;
 }
 
 #playAgain {
-margin-top: 20px;
+margin-top: 25px;
 padding: 12px 25px;
-background: red;
-color: white;
-border: 2px solid black;
+background: white;
+color: #ff1493;
+border: none;
+border-radius: 10px;
 cursor: pointer;
 display: none;
 font-size: 18px;
@@ -61,12 +85,14 @@ to { transform: translateY(100vh); }
 
 <body>
 
+<div id="cursor"></div>
+
 <h1 id="question">¿Dónde nos conocimos?</h1>
 
 <div id="options">
-<div class="option" onclick="checkAnswer(1)">a. En tu casa 🏠</div>
-<div class="option" onclick="checkAnswer(2)">b. En el parque 🌳</div>
-<div class="option" onclick="checkAnswer(3)">c. En una fiesta 🎉</div>
+<div class="option" onclick="checkAnswer(1)">1. En tu casa 🏠</div>
+<div class="option" onclick="checkAnswer(2)">2. En el parque 🌳</div>
+<div class="option" onclick="checkAnswer(3)">3. En una fiesta 🎉</div>
 </div>
 
 <div id="message"></div>
@@ -76,13 +102,32 @@ to { transform: translateY(100vh); }
 
 let level = 1;
 
+/* Cursor personalizado */
+const cursor = document.getElementById("cursor");
+
+document.addEventListener("mousemove", e => {
+cursor.style.left = e.clientX + "px";
+cursor.style.top = e.clientY + "px";
+});
+
+/* Soporte teclado físico */
+document.addEventListener("keydown", function(e){
+if(level === 1){
+if(e.key === "1") checkAnswer(1);
+if(e.key === "2") checkAnswer(2);
+if(e.key === "3") checkAnswer(3);
+}
+});
+
+/* Juego */
+
 function checkAnswer(answer) {
 if(level === 1){
 if(answer === 2){
 nextLevel();
 } else {
 document.getElementById("message").innerHTML =
-"¿Es en serio, que ya no te acuerdas? 😿";
+"¿Es en serio? 😿";
 }
 }
 }
@@ -94,34 +139,34 @@ if(level === 2){
 document.getElementById("question").innerHTML =
 "¿Qué es lo que más me gusta de ti?";
 document.getElementById("options").innerHTML = `
-<div class="option" onclick="nextLevel()">a. Tu carita</div>
-<div class="option" onclick="nextLevel()">b. Tu sonrisa</div>
-<div class="option" onclick="nextLevel()">c. Todo</div>
+<div class="option" onclick="nextLevel()">Tu carita 😍</div>
+<div class="option" onclick="nextLevel()">Tu sonrisa 😁</div>
+<div class="option" onclick="nextLevel()">Todo 💗</div>
 `;
 document.getElementById("message").innerHTML = "";
 }
 
 else if(level === 3){
 document.getElementById("question").innerHTML =
-"¿Quieres ser mi San Valentín? 💗";
+"¿Quieres ser mi Valentine? 💘";
 document.getElementById("options").innerHTML = `
-<div class="option" onclick="finalYes()">Si</div>
-<div class="option" id="noBtn">No</div>
+<div class="option" onclick="finalYes()">Sí 💗</div>
+<div class="option" id="noBtn">No 😈</div>
 `;
 document.getElementById("message").innerHTML = "";
 
 const noBtn = document.getElementById("noBtn");
 noBtn.addEventListener("mouseover", function(){
 noBtn.style.position = "absolute";
-noBtn.style.left = Math.random()*window.innerWidth + "px";
-noBtn.style.top = Math.random()*window.innerHeight + "px";
+noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+noBtn.style.top = Math.random() * (window.innerHeight - 50) + "px";
 });
 }
 }
 
 function finalYes(){
 document.getElementById("question").innerHTML =
-"Si! Te quiero muchooo😽";
+"SÍÍÍ 💗 Te quiero muchooo 😽";
 document.getElementById("options").innerHTML = "";
 document.getElementById("playAgain").style.display = "inline-block";
 startEffects();
@@ -131,7 +176,7 @@ function startEffects(){
 setInterval(()=>{
 let item = document.createElement("div");
 item.classList.add("falling");
-item.innerHTML = Math.random() > 0.5 ? "😽" : "🎉";
+item.innerHTML = Math.random() > 0.5 ? "💗" : "✨";
 item.style.left = Math.random()*100 + "vw";
 item.style.animationDuration = (Math.random()*3+2) + "s";
 document.body.appendChild(item);
