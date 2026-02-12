@@ -64,15 +64,16 @@ font-size:12px;
 margin-bottom:15px;
 }
 
-/* BOTON START */
-.start-btn{
+/* BOTON */
+.btn{
 background:#e10600;
 color:white;
 border:6px solid black;
-padding:8px 14px;
+padding:10px 16px;
 font-size:12px;
 cursor:pointer;
 display:inline-block;
+margin-top:20px;
 }
 
 /* NIVEL */
@@ -100,6 +101,17 @@ margin:10px 0;
 cursor:pointer;
 font-size:12px;
 }
+
+/* MENSAJES GRANDES */
+.big-text{
+font-size:18px;
+color:black;
+margin-top:20px;
+}
+
+.emoji{
+font-size:40px;
+}
 </style>
 </head>
 
@@ -111,11 +123,11 @@ font-size:12px;
 <div class="title">VALENTINE GAME</div>
 <div class="subtitle">MADE JUST FOR YOU</div>
 <div class="press">PRESIONA START</div>
-<div class="start-btn" onclick="goToLevel1()">START</div>
+<div class="btn" onclick="goTo('slide2')">START</div>
 </div>
 </div>
 
-<!-- SLIDE NIVEL 1 -->
+<!-- NIVEL 1 -->
 <div class="slide" id="slide2">
 <div class="container">
 <div class="level-box">NIVEL 1</div>
@@ -125,30 +137,69 @@ font-size:12px;
 </div>
 
 <div class="option" onclick="checkAnswer('a')">
-A. EN TU CASA
+A. EN TU CASA 🏠
 </div>
 
 <div class="option" onclick="checkAnswer('b')">
-B. EN EL PARQUE
+B. EN EL PARQUE 🌳
 </div>
 
 <div class="option" onclick="checkAnswer('c')">
-C. EN UNA FIESTA
+C. EN UNA FIESTA 🎉
 </div>
+</div>
+</div>
+
+<!-- ERROR A -->
+<div class="slide" id="errorA">
+<div class="container">
+<div class="emoji">😾</div>
+<div class="big-text">
+¿ES EN SERIO, QUE YA NO TE ACUERDAS?
+</div>
+<div class="btn" onclick="goTo('slide2')">REINTENTAR</div>
+</div>
+</div>
+
+<!-- ERROR C -->
+<div class="slide" id="errorC">
+<div class="container">
+<div class="emoji">😾</div>
+<div class="big-text">
+VUELVE A LEER LA PREGUNTA 😠
+</div>
+<div class="btn" onclick="goTo('slide2')">REINTENTAR</div>
+</div>
+</div>
+
+<!-- CORRECTO -->
+<div class="slide" id="correct">
+<div class="container">
+<div class="emoji">😍</div>
+<div class="big-text">
+TÚ ME DAS +1000 DE VIDA 🎮
+</div>
+<div class="btn">CONTINUAR</div>
 </div>
 </div>
 
 <script>
-function goToLevel1(){
-document.getElementById("slide1").classList.remove("active");
-document.getElementById("slide2").classList.add("active");
+function goTo(id){
+document.querySelectorAll('.slide').forEach(slide=>{
+slide.classList.remove('active');
+});
+document.getElementById(id).classList.add('active');
 }
 
 function checkAnswer(answer){
-if(answer === 'b'){
-alert("💘 CORRECTO 💘");
-}else{
-alert("❌ INCORRECTO ❌");
+if(answer === 'a'){
+goTo('errorA');
+}
+else if(answer === 'c'){
+goTo('errorC');
+}
+else{
+goTo('correct');
 }
 }
 </script>
