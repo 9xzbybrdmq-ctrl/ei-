@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>San Valentín 💗</title>
+
+<style>
+body {
+background: white;
+text-align: center;
+font-family: Arial, sans-serif;
+overflow: hidden;
+}
+
+h1 {
+color: black;
+}
+
+.option {
+border: 2px solid black;
+padding: 15px;
+margin: 10px;
+display: inline-block;
+cursor: pointer;
+font-size: 18px;
+color: black;
+background: transparent;
+}
+
+#message {
+font-size: 22px;
+margin-top: 20px;
+color: black;
+}
+
+#playAgain {
+margin-top: 20px;
+padding: 12px 25px;
+background: red;
+color: white;
+border: 2px solid black;
+cursor: pointer;
+display: none;
+font-size: 18px;
+}
+
+.falling {
+position: fixed;
+top: -50px;
+font-size: 24px;
+animation: fall linear forwards;
+}
+
+@keyframes fall {
+to {
+transform: translateY(100vh);
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<h1 id="question">¿Dónde nos conocimos?</h1>
+
+<div id="options">
+<div class="option" onclick="checkAnswer(1)">a. En tu casa 🏠</div>
+<div class="option" onclick="checkAnswer(2)">b. En el parque 🌳</div>
+<div class="option" onclick="checkAnswer(3)">c. En una fiesta 🎉</div>
+</div>
+
+<div id="message"></div>
+<button id="playAgain" onclick="restart()">Play Again</button>
+
+<audio id="music" loop>
+<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_9d1b1c8a0f.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+let level = 1;
+const music = document.getElementById("music");
+music.volume = 0.3;
+music.play();
+
+function checkAnswer(answer) {
+
+if(level === 1) {
+if(answer === 2) {
+nextLevel();
+} else {
+document.getElementById("message").innerHTML =
+"¿Es en serio, que ya no te acuerdas? 😿";
+}
+}
+
+else if(level === 2) {
+nextLevel();
+}
+}
+
+function nextLevel() {
+level++;
+
+if(level === 2) {
+document.getElementById("question").innerHTML =
+"¿Qué es lo que más me gusta de ti?";
+document.getElementById("options").innerHTML = `
+<div class="option" onclick="nextLevel()">a. Tu carita</div>
+<div class="option" onclick="nextLevel()">b. Tu sonrisa</div>
+<div class="option" onclick="nextLevel()">c. Todo</div>
+`;
+document.getElementById("message").innerHTML = "";
+}
+
+else if(level === 3) {
+document.getElementById("question").innerHTML =
+"¿Quieres ser mi San Valentín? 💗";
+document.getElementById("options").innerHTML = `
+<div class="option" onclick="finalYes()">Si</div>
+<div class="option" id="noBtn">No</div>
+`;
+document.getElementById("message").innerHTML = "";
+
+const noBtn = document.getElementById("noBtn");
+noBtn.addEventListener("mouseover", function() {
+noBtn.style.position = "absolute";
+noBtn.style.left = Math.random()*300 + "px";
+noBtn.style.top = Math.random()*300 + "px";
+});
+}
+}
+
+function finalYes() {
+document.getElementById("question").innerHTML =
+"Si! Te quiero muchooo😽";
+document.getElementById("options").innerHTML = "";
+document.getElementById("playAgain").style.display = "inline-block";
+startEffects();
+}
+
+function startEffects() {
+setInterval(() => {
+let heart = document.createElement("div");
+heart.classList.add("falling");
+heart.innerHTML = "😽";
+heart.style.left = Math.random()*100 + "vw";
+heart.style.animationDuration = (Math.random()*3+2) + "s";
+document.body.appendChild(heart);
+
+setTimeout(()=>{ heart.remove(); },5000);
+},300);
+
+setInterval(() => {
+let confetti = document.createElement("div");
+confetti.classList.add("falling");
+confetti.innerHTML = "🎉";
+confetti.style.left = Math.random()*100 + "vw";
+confetti.style.animationDuration = (Math.random()*3+2) + "s";
+document.body.appendChild(confetti);
+
+setTimeout(()=>{ confetti.remove(); },5000);
+},400);
+}
+
+function restart() {
+location.reload();
+}
+
+</script>
+
+</body>
+</html>
