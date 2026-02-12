@@ -10,13 +10,46 @@
 <style>
 body{
 margin:0;
-background:#e10600;
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
 font-family:'Press Start 2P', cursive;
 overflow:hidden;
+
+/* FONDO ARCADE ANIMADO */
+background: repeating-linear-gradient(
+0deg,
+#e10600,
+#e10600 4px,
+#c40000 4px,
+#c40000 8px
+);
+animation: bgMove 2s linear infinite;
+}
+
+@keyframes bgMove{
+from{ background-position:0 0; }
+to{ background-position:0 20px; }
+}
+
+/* EFECTO SCANLINES CRT */
+body::after{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+background: repeating-linear-gradient(
+to bottom,
+rgba(0,0,0,0.2) 0px,
+rgba(0,0,0,0.2) 2px,
+transparent 2px,
+transparent 4px
+);
+mix-blend-mode:multiply;
 }
 
 .slide{
@@ -37,8 +70,13 @@ background:white;
 padding:60px 50px;
 text-align:center;
 border:8px solid black;
-box-shadow:16px 16px 0px black;
 max-width:800px;
+
+/* GLOW NEON */
+box-shadow:
+0 0 20px #ff0000,
+0 0 40px #ff0000,
+16px 16px 0px black;
 }
 
 .title{
@@ -46,6 +84,20 @@ font-size:28px;
 color:#e10600;
 -webkit-text-stroke:3px black;
 margin-bottom:30px;
+animation: arcadeBlink 1s infinite alternate;
+}
+
+.level-clear{
+font-size:32px;
+color:red;
+-webkit-text-stroke:3px black;
+margin-bottom:30px;
+animation: arcadeBlink 1s infinite alternate;
+}
+
+@keyframes arcadeBlink{
+from{ filter:brightness(1); }
+to{ filter:brightness(1.6); }
 }
 
 .subtitle{
@@ -60,6 +112,10 @@ border:6px solid black;
 .press{
 font-size:12px;
 margin-bottom:15px;
+}
+
+.btn, .small-btn, .option{
+transition: all 0.1s;
 }
 
 .btn{
@@ -82,6 +138,11 @@ font-size:10px;
 cursor:pointer;
 display:inline-block;
 margin-top:25px;
+}
+
+.btn:hover, .small-btn:hover, .option:hover{
+transform: scale(1.05);
+box-shadow: 0 0 15px #ff0000;
 }
 
 .level-box{
@@ -114,6 +175,12 @@ color:black;
 margin-top:20px;
 }
 
+.level-message{
+font-size:12px;
+color:black;
+margin-top:20px;
+}
+
 .emoji{
 font-size:48px;
 }
@@ -122,17 +189,9 @@ font-size:48px;
 position:absolute;
 }
 
-.level-clear{
-font-size:32px;
-color:red;
--webkit-text-stroke:3px black;
-margin-bottom:30px;
-}
-
-.level-message{
-font-size:12px;
-color:black;
-margin-top:20px;
+/* PIXEL SHARP */
+*{
+image-rendering: pixelated;
 }
 </style>
 </head>
@@ -145,7 +204,7 @@ margin-top:20px;
 <div class="title">VALENTINE GAME</div>
 <div class="subtitle">MADE JUST FOR YOU</div>
 <div class="press">PRESIONA START</div>
-<div class="btn" onclick="goTo('slide2')">START</div>
+<div class="btn" id="startBtn" onclick="goTo('slide2')">START</div>
 </div>
 </div>
 
@@ -154,7 +213,6 @@ margin-top:20px;
 <div class="container">
 <div class="level-box">NIVEL 1</div>
 <div class="question">¿DÓNDE FUE NUESTRO PRIMER BESO?</div>
-
 <div class="option" onclick="checkAnswer('a')">A. EN TU CASA 🏠</div>
 <div class="option" onclick="checkAnswer('b')">B. EN EL PARQUE 🌳</div>
 <div class="option" onclick="checkAnswer('c')">C. EN UNA FIESTA 🎉</div>
@@ -190,7 +248,6 @@ margin-top:20px;
 <div class="container">
 <div class="level-box">NIVEL 2</div>
 <div class="question">¿QUÉ ES LO QUE ME GUSTA MÁS DE TI?</div>
-
 <div class="option" onclick="goTo('loveSlide')">A. TU CARITA 😊</div>
 <div class="option" onclick="goTo('loveSlide')">B. TU SONRISA 😁</div>
 <div class="option" onclick="goTo('loveSlide')">C. TODO 💘</div>
@@ -199,30 +256,8 @@ margin-top:20px;
 
 <div class="slide" id="loveSlide">
 <div class="container">
-<div class="emoji">😻❤️</div>
-<div class="big-text">MUY BIEN AMOR!!! ❤️</div>
-<div class="btn" onclick="goTo('slide4')">CONTINUAR</div>
-</div>
-</div>
-
-<!-- NIVEL 3 -->
-<div class="slide" id="slide4">
-<div class="container">
-<div class="level-box">NIVEL 3</div>
-<div class="question">¿QUIERES SER MI SAN VALENTÍN? ❤️</div>
-
-<div class="small-btn" onclick="goTo('finalLove')">SI</div>
-<div class="option" id="noBtn">NO</div>
-</div>
-</div>
-
-<!-- FINAL -->
-<div class="slide" id="finalLove">
-<div class="container">
 <div class="emoji">😭❤️</div>
-<div class="big-text">
-SI!! SABÍA QUE DIRÍAS QUE SI!!
-</div>
+<div class="big-text">SI!! SABÍA QUE DIRÍAS QUE SI!!</div>
 <div class="small-btn" onclick="goTo('levelClear')">CONTINUAR</div>
 </div>
 </div>
@@ -231,15 +266,18 @@ SI!! SABÍA QUE DIRÍAS QUE SI!!
 <div class="slide" id="levelClear">
 <div class="container">
 <div class="level-clear">¡LEVEL CLEAR!</div>
-
 <div class="level-message">
 LAMENTABLEMENTE OTRO AÑO MÁS SIN LLEVARTE UN RAMO DE FLORES Y MARIACHIS. 😢<br><br>
 ESPERO NOS VOLVAMOS A VER PRONTO ❤️
 </div>
-
 <div class="small-btn" onclick="goTo('slide1')">PLAY AGAIN</div>
 </div>
 </div>
+
+<!-- AUDIO ARCADE -->
+<audio id="arcadeMusic" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=8-bit-arcade-110624.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 function goTo(id){
@@ -255,17 +293,25 @@ else if(answer === 'c'){ goTo('errorC'); }
 else{ goTo('correct'); }
 }
 
+/* BOTÓN NO QUE SE ESCAPA */
 const noBtn = document.getElementById('noBtn');
-
+if(noBtn){
 function moveNoButton(){
 noBtn.style.left = Math.random() * (window.innerWidth - 150) + "px";
 noBtn.style.top = Math.random() * (window.innerHeight - 80) + "px";
 }
-
 noBtn.addEventListener("mouseover", moveNoButton);
 noBtn.addEventListener("touchstart", function(e){
 e.preventDefault();
 moveNoButton();
+});
+}
+
+/* MÚSICA ARCADE */
+const music = document.getElementById("arcadeMusic");
+document.getElementById("startBtn").addEventListener("click", function(){
+music.volume = 0.4;
+music.play();
 });
 </script>
 
