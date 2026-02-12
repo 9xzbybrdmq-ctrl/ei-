@@ -36,9 +36,10 @@ display:flex;
 background:white;
 padding:60px 50px;
 text-align:center;
-border:10px solid black;
-box-shadow:0 0 30px black;
+border:12px solid black;
+box-shadow:0 0 0 6px white, 0 0 0 12px black;
 max-width:800px;
+image-rendering: pixelated;
 }
 
 .title{
@@ -46,6 +47,7 @@ font-size:28px;
 color:#e10600;
 -webkit-text-stroke:3px black;
 margin-bottom:30px;
+text-shadow:4px 4px 0 black,-2px -2px 0 black;
 }
 
 .subtitle{
@@ -65,6 +67,7 @@ font-size:10px;
 display:inline-block;
 margin-bottom:25px;
 border:6px solid black;
+animation: arcadeBlink 1s infinite;
 }
 
 .question{
@@ -80,6 +83,7 @@ margin:15px 0;
 cursor:pointer;
 font-size:12px;
 transition:0.2s;
+image-rendering: pixelated;
 }
 
 .option:hover{
@@ -96,7 +100,6 @@ font-size:10px;
 cursor:pointer;
 display:inline-block;
 margin-top:20px;
-transition:0.2s;
 }
 
 .btn:hover, .small-btn:hover{
@@ -115,6 +118,7 @@ font-size:30px;
 color:red;
 -webkit-text-stroke:3px black;
 margin-bottom:30px;
+text-shadow:4px 4px 0 black;
 }
 
 .level-message{
@@ -131,38 +135,18 @@ font-size:48px;
 position:absolute;
 }
 
-/* HACER EL CUADRO SI MÁS PEQUEÑO */
-#slide4 .option:first-of-type{
+/* NIVEL 3 BOTONES PEQUEÑOS */
+#slide4 .option{
 width:120px;
 margin-left:auto;
 margin-right:auto;
 }
 
-/* ====== MÁS ESTILO ARCADE ====== */
-
-.container, .option, .btn, .small-btn, .level-box {
-image-rendering: pixelated;
-}
-
-.container {
-border: 12px solid black;
-box-shadow: 0 0 0 6px white, 0 0 0 12px black;
-}
-
-.title, .level-clear {
-text-shadow:
-4px 4px 0 black,
--2px -2px 0 black;
-}
-
-@keyframes arcadeBlink {
-0% { opacity: 1; }
-50% { opacity: 0.6; }
-100% { opacity: 1; }
-}
-
-.level-box {
-animation: arcadeBlink 1s infinite;
+/* EFECTO ARCADE */
+@keyframes arcadeBlink{
+0%{opacity:1;}
+50%{opacity:0.6;}
+100%{opacity:1;}
 }
 
 body::after{
@@ -200,12 +184,32 @@ pointer-events:none;
 <div class="container">
 <div class="level-box">NIVEL 1</div>
 <div class="question">¿DÓNDE FUE NUESTRO PRIMER BESO?</div>
-<div class="option" onclick="goTo('correct1')">A. EN TU CASA 🏠</div>
+
+<div class="option" onclick="goTo('wrong1')">A. EN TU CASA 🏠</div>
 <div class="option" onclick="goTo('correct1')">B. EN EL PARQUE 🌳</div>
-<div class="option" onclick="goTo('correct1')">C. EN UNA FIESTA 🎉</div>
+<div class="option" onclick="goTo('wrong2')">C. EN UNA FIESTA 🎉</div>
 </div>
 </div>
 
+<!-- INCORRECTA 1 -->
+<div class="slide" id="wrong1">
+<div class="container">
+<div class="emoji">😾</div>
+<div class="big-text">¿ES EN SERIO, QUÉ YA NO TE ACUERDAS?</div>
+<div class="small-btn" onclick="goTo('slide2')">REINTENTAR</div>
+</div>
+</div>
+
+<!-- INCORRECTA 2 -->
+<div class="slide" id="wrong2">
+<div class="container">
+<div class="emoji">😾</div>
+<div class="big-text">VUELVE A LEER LA PREGUNTA 😡</div>
+<div class="small-btn" onclick="goTo('slide2')">REINTENTAR</div>
+</div>
+</div>
+
+<!-- CORRECTA 1 -->
 <div class="slide" id="correct1">
 <div class="container">
 <div class="emoji">😍</div>
@@ -246,7 +250,7 @@ pointer-events:none;
 <div class="slide" id="finalLove">
 <div class="container">
 <div class="emoji">😭❤️</div>
-<div class="big-text">SI!! SABÍA QUE DIRÍAS QUE SI</div>
+<div class="big-text">SI!! SABÍA QUE DIRÍAS QUE SI!!</div>
 <div class="small-btn" onclick="goTo('levelClear')">CONTINUAR</div>
 </div>
 </div>
