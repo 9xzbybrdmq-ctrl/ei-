@@ -73,8 +73,15 @@ display:inline-block;
 margin-top:20px;
 }
 
-.btn:active{
-transform:translate(4px,4px);
+.small-btn{
+background:#e10600;
+color:white;
+border:6px solid black;
+padding:8px 14px;
+font-size:10px;
+cursor:pointer;
+display:inline-block;
+margin-top:25px;
 }
 
 .level-box{
@@ -101,10 +108,6 @@ cursor:pointer;
 font-size:12px;
 }
 
-.option:active{
-transform:translate(4px,4px);
-}
-
 .big-text{
 font-size:18px;
 color:black;
@@ -115,9 +118,8 @@ margin-top:20px;
 font-size:48px;
 }
 
-/* BOTÓN NO QUE SE ESCAPA */
 #noBtn{
-position:relative;
+position:absolute;
 }
 </style>
 </head>
@@ -176,9 +178,9 @@ position:relative;
 <div class="level-box">NIVEL 2</div>
 <div class="question">¿QUÉ ES LO QUE ME GUSTA MÁS DE TI?</div>
 
-<div class="option" onclick="level2Correct()">A. TU CARITA 😊</div>
-<div class="option" onclick="level2Correct()">B. TU SONRISA 😁</div>
-<div class="option" onclick="level2Correct()">C. TODO 💘</div>
+<div class="option" onclick="goTo('loveSlide')">A. TU CARITA 😊</div>
+<div class="option" onclick="goTo('loveSlide')">B. TU SONRISA 😁</div>
+<div class="option" onclick="goTo('loveSlide')">C. TODO 💘</div>
 </div>
 </div>
 
@@ -206,9 +208,9 @@ position:relative;
 <div class="container">
 <div class="emoji">😭❤️</div>
 <div class="big-text">
-SI!! SABÍA QUE DIRÍAS QUE SI
+SI!! SABÍA QUE DIRÍAS QUE SI!!
 </div>
-<div class="press">CONTINUAR</div>
+<div class="small-btn">CONTINUAR</div>
 </div>
 </div>
 
@@ -226,22 +228,18 @@ else if(answer === 'c'){ goTo('errorC'); }
 else{ goTo('correct'); }
 }
 
-function level2Correct(){
-goTo('loveSlide');
-}
-
-/* BOTÓN NO QUE SE ESCAPA */
+/* BOTÓN NO QUE SE ESCAPA (mouse y touch) */
 const noBtn = document.getElementById('noBtn');
 
-document.addEventListener("mousemove", function(e){
-const rect = noBtn.getBoundingClientRect();
-const distance = Math.hypot(e.clientX - rect.left, e.clientY - rect.top);
-
-if(distance < 100){
-noBtn.style.position = "absolute";
+function moveNoButton(){
 noBtn.style.left = Math.random() * (window.innerWidth - 150) + "px";
-noBtn.style.top = Math.random() * (window.innerHeight - 100) + "px";
+noBtn.style.top = Math.random() * (window.innerHeight - 80) + "px";
 }
+
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("touchstart", function(e){
+e.preventDefault();
+moveNoButton();
 });
 </script>
 
