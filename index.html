@@ -3,207 +3,80 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valentine game</title>
+<title>VALENTINE GAME</title>
 
-<!-- Fuente pixel -->
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
-body {
-margin: 0;
-background: #d90429;
-font-family: 'Press Start 2P', cursive;
-display: flex;
-justify-content: center;
-align-items: center;
-height: 100vh;
-overflow: hidden;
+body{
+margin:0;
+background:#e10600;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+font-family:'Press Start 2P', cursive;
 }
 
-/* Pantalla Inicio */
-#startScreen {
-background: white;
-padding: 50px;
-text-align: center;
-border: 6px solid black;
-box-shadow: 12px 12px 0px black;
-animation: pop 0.6s ease-out;
+/* CUADRO BLANCO */
+.container{
+background:white;
+padding:50px 40px;
+text-align:center;
+border:6px solid black;
+box-shadow:12px 12px 0px black;
 }
 
-@keyframes pop {
-from { transform: scale(0.8); opacity: 0; }
-to { transform: scale(1); opacity: 1; }
+/* TITULO */
+.title{
+font-size:28px;
+color:#e10600;
+-webkit-text-stroke: 2px black;
+margin-bottom:30px;
 }
 
-h1 {
-font-size: 22px;
-color: #d90429;
-margin-bottom: 20px;
+/* RECTANGULO ROJO */
+.subtitle{
+background:#e10600;
+color:white;
+padding:15px 20px;
+font-size:14px;
+margin-bottom:40px;
 }
 
-.subtitle {
-background: #d90429;
-color: white;
-padding: 8px;
-font-size: 10px;
-margin-bottom: 20px;
+/* TEXTO PRESIONA */
+.press{
+font-size:12px;
+margin-bottom:15px;
 }
 
-.smallText {
-font-size: 8px;
-margin-bottom: 25px;
+/* BOTON START */
+.start-btn{
+background:#e10600;
+color:white;
+border:6px solid black;
+padding:20px;
+font-size:18px;
+cursor:pointer;
 }
 
-button {
-background: #d90429;
-color: white;
-border: 4px solid black;
-padding: 12px 25px;
-cursor: pointer;
-font-size: 10px;
-}
-
-button:hover {
-background: black;
-}
-
-/* Juego */
-#game {
-display: none;
-flex-direction: column;
-align-items: center;
-text-align: center;
-color: white;
-}
-
-.option {
-border: 3px solid white;
-padding: 10px 20px;
-margin: 15px;
-cursor: pointer;
-font-size: 10px;
-}
-
-.option:hover {
-background: white;
-color: #d90429;
-}
-
-.falling {
-position: fixed;
-top: -20px;
-font-size: 14px;
-animation: fall linear forwards;
-}
-
-@keyframes fall {
-to { transform: translateY(100vh); }
+.start-btn:hover{
+background:black;
 }
 </style>
 </head>
 
 <body>
 
-<div id="startScreen">
-<h1>VALENTINE GAME</h1>
+<div class="container">
+<div class="title">VALENTINE GAME</div>
+
 <div class="subtitle">MADE JUST FOR YOU</div>
-<div class="smallText">PRESS START OR ENTER</div>
-<button onclick="startGame()">START</button>
+
+<div class="press">PRESIONA START</div>
+
+<div class="start-btn">START</div>
 </div>
-
-<div id="game">
-<h2 id="question">WHERE DID WE MEET?</h2>
-
-<div id="options">
-<div class="option" onclick="checkAnswer(1)">1. YOUR HOUSE</div>
-<div class="option" onclick="checkAnswer(2)">2. THE PARK</div>
-<div class="option" onclick="checkAnswer(3)">3. A PARTY</div>
-</div>
-
-<div id="message"></div>
-</div>
-
-<script>
-
-let level = 1;
-
-/* Sonido retro */
-function playBeep(){
-const ctx = new (window.AudioContext || window.webkitAudioContext)();
-const osc = ctx.createOscillator();
-osc.type = "square";
-osc.frequency.setValueAtTime(440, ctx.currentTime);
-osc.connect(ctx.destination);
-osc.start();
-osc.stop(ctx.currentTime + 0.1);
-}
-
-/* Enter para empezar */
-document.addEventListener("keydown", function(e){
-if(e.key === "Enter"){
-startGame();
-}
-});
-
-/* Start */
-function startGame(){
-playBeep();
-document.getElementById("startScreen").style.display = "none";
-document.getElementById("game").style.display = "flex";
-}
-
-/* Juego */
-function checkAnswer(answer){
-if(level === 1){
-if(answer === 2){
-nextLevel();
-} else {
-document.getElementById("message").innerHTML = "WRONG 😈";
-}
-}
-}
-
-function nextLevel(){
-level++;
-
-if(level === 2){
-document.getElementById("question").innerHTML =
-"BE MY VALENTINE? 💘";
-document.getElementById("options").innerHTML = `
-<div class="option" onclick="finalYes()">YES 💗</div>
-<div class="option" id="noBtn">NO</div>
-`;
-
-const noBtn = document.getElementById("noBtn");
-noBtn.addEventListener("mouseover", function(){
-noBtn.style.position = "absolute";
-noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
-noBtn.style.top = Math.random() * (window.innerHeight - 50) + "px";
-});
-}
-}
-
-function finalYes(){
-document.getElementById("question").innerHTML =
-"I KNEW IT 💗✨";
-document.getElementById("options").innerHTML = "";
-startEffects();
-}
-
-/* Corazones pixel */
-function startEffects(){
-setInterval(()=>{
-let heart = document.createElement("div");
-heart.classList.add("falling");
-heart.innerHTML = "💗";
-heart.style.left = Math.random()*100 + "vw";
-heart.style.animationDuration = (Math.random()*3+2) + "s";
-document.body.appendChild(heart);
-setTimeout(()=>{ heart.remove(); },4000);
-},300);
-}
-
-</script>
 
 </body>
 </html>
