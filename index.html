@@ -15,15 +15,16 @@ overflow: hidden;
 
 h1 {
 color: black;
+margin-top: 40px;
 }
 
 .option {
 border: 2px solid black;
-padding: 15px;
-margin: 10px;
+padding: 15px 25px;
+margin: 15px;
 display: inline-block;
 cursor: pointer;
-font-size: 18px;
+font-size: 20px;
 color: black;
 background: transparent;
 }
@@ -53,11 +54,8 @@ animation: fall linear forwards;
 }
 
 @keyframes fall {
-to {
-transform: translateY(100vh);
+to { transform: translateY(100vh); }
 }
-}
-
 </style>
 </head>
 
@@ -74,37 +72,25 @@ transform: translateY(100vh);
 <div id="message"></div>
 <button id="playAgain" onclick="restart()">Play Again</button>
 
-<audio id="music" loop>
-<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_9d1b1c8a0f.mp3" type="audio/mpeg">
-</audio>
-
 <script>
 
 let level = 1;
-const music = document.getElementById("music");
-music.volume = 0.3;
-music.play();
 
 function checkAnswer(answer) {
-
-if(level === 1) {
-if(answer === 2) {
+if(level === 1){
+if(answer === 2){
 nextLevel();
 } else {
 document.getElementById("message").innerHTML =
 "¿Es en serio, que ya no te acuerdas? 😿";
 }
 }
-
-else if(level === 2) {
-nextLevel();
-}
 }
 
-function nextLevel() {
+function nextLevel(){
 level++;
 
-if(level === 2) {
+if(level === 2){
 document.getElementById("question").innerHTML =
 "¿Qué es lo que más me gusta de ti?";
 document.getElementById("options").innerHTML = `
@@ -115,7 +101,7 @@ document.getElementById("options").innerHTML = `
 document.getElementById("message").innerHTML = "";
 }
 
-else if(level === 3) {
+else if(level === 3){
 document.getElementById("question").innerHTML =
 "¿Quieres ser mi San Valentín? 💗";
 document.getElementById("options").innerHTML = `
@@ -125,15 +111,15 @@ document.getElementById("options").innerHTML = `
 document.getElementById("message").innerHTML = "";
 
 const noBtn = document.getElementById("noBtn");
-noBtn.addEventListener("mouseover", function() {
+noBtn.addEventListener("mouseover", function(){
 noBtn.style.position = "absolute";
-noBtn.style.left = Math.random()*300 + "px";
-noBtn.style.top = Math.random()*300 + "px";
+noBtn.style.left = Math.random()*window.innerWidth + "px";
+noBtn.style.top = Math.random()*window.innerHeight + "px";
 });
 }
 }
 
-function finalYes() {
+function finalYes(){
 document.getElementById("question").innerHTML =
 "Si! Te quiero muchooo😽";
 document.getElementById("options").innerHTML = "";
@@ -141,31 +127,19 @@ document.getElementById("playAgain").style.display = "inline-block";
 startEffects();
 }
 
-function startEffects() {
-setInterval(() => {
-let heart = document.createElement("div");
-heart.classList.add("falling");
-heart.innerHTML = "😽";
-heart.style.left = Math.random()*100 + "vw";
-heart.style.animationDuration = (Math.random()*3+2) + "s";
-document.body.appendChild(heart);
-
-setTimeout(()=>{ heart.remove(); },5000);
+function startEffects(){
+setInterval(()=>{
+let item = document.createElement("div");
+item.classList.add("falling");
+item.innerHTML = Math.random() > 0.5 ? "😽" : "🎉";
+item.style.left = Math.random()*100 + "vw";
+item.style.animationDuration = (Math.random()*3+2) + "s";
+document.body.appendChild(item);
+setTimeout(()=>{ item.remove(); },5000);
 },300);
-
-setInterval(() => {
-let confetti = document.createElement("div");
-confetti.classList.add("falling");
-confetti.innerHTML = "🎉";
-confetti.style.left = Math.random()*100 + "vw";
-confetti.style.animationDuration = (Math.random()*3+2) + "s";
-document.body.appendChild(confetti);
-
-setTimeout(()=>{ confetti.remove(); },5000);
-},400);
 }
 
-function restart() {
+function restart(){
 location.reload();
 }
 
